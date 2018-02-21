@@ -2,7 +2,8 @@ package ru.hh.school.model;
 
 import javax.persistence.*;
 
-@Entity(name="todo")
+@Entity
+@Table(name="todo")
 public class Todo {
 
     private Integer id;

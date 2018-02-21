@@ -30,26 +30,18 @@
 			todos: [],
 			newTodo: '',
 			editedTodo: null,
-			visibility: 'all'
+			visibility: 'all',
+            allDone: false
 		},
 
 		created: function () {
-			var self = this;
-            fetch('http://localhost:9999/todo', {
-            	mode: 'cors',
-				method: 'GET'
-			}).then(function(response) {
-                 return response.json()
-            }).then(function(body){
-                self.todos = body;
-            });
+			this.loadTodos();
 		},
 
 		// computed properties
 		// http://vuejs.org/guide/computed.html
 		computed: {
 			filteredTodos: function () {
-				console.log(this.todos);
 				return filters[this.visibility](this.todos);
 			},
 			remaining: function () {
@@ -60,9 +52,22 @@
 					return this.remaining === 0;
 				},
 				set: function (value) {
-					this.todos.forEach(function (todo) {
-						todo.completed = value;
-					});
+                    var self = this;
+                    fetch('http://localhost:9999/todo/mark_all', {
+                        mode: 'cors',
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(value)
+                    }).then(function(response) {
+                        if (response.ok){
+                            self.todos.forEach(function (todo) {
+                                todo.completed = value;
+                            });
+                        }
+                    })
+
 				}
 			}
 		},
@@ -71,27 +76,96 @@
 		// note there's no DOM manipulation here at all.
 		methods: {
 
+			loadTodos: function () {
+                var self = this;
+                fetch('http://localhost:9999/todo', {
+                    mode: 'cors',
+                    method: 'GET'
+                }).then(function(response) {
+                    return response.json()
+                }).then(function(body){
+                	self.todos = body
+                })
+			},
+
+			updateTodo: function (todo) {
+                var self = this;
+                fetch('http://localhost:9999/todo', {
+                    mode: 'cors',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(todo)
+                }).then(function(response) {
+                    return response.json()
+                }).catch(function(){
+                	self.cancelEdit(todo)
+				})
+			},
+
+
 			pluralize: function (word, count) {
 				return word + (count === 1 ? '' : 's');
 			},
 
 			addTodo: function () {
 				var value = this.newTodo && this.newTodo.trim();
+				var self = this;
 				if (!value) {
 					return;
 				}
-				this.todos.push({ title: value, completed: false });
-				this.newTodo = '';
+				var todoToAdd = { title: value, completed: false };
+                fetch('http://localhost:9999/todo', {
+                    mode: 'cors',
+                    method: 'PUT',
+					headers: {
+                    	'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(todoToAdd)
+                }).then(function(response) {
+                	if (response.ok){
+                        return response.json()
+                    }
+                }).then(function(addedTodo){
+                    self.todos.push(addedTodo);
+                    self.newTodo = ''
+                })
 			},
 
 			removeTodo: function (todo) {
-				var index = this.todos.indexOf(todo);
-				this.todos.splice(index, 1);
+				var self = this;
+                fetch('http://localhost:9999/todo', {
+                    mode: 'cors',
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(todo)
+                }).then(function(response) {
+                    if (response.ok){
+                        var index = self.todos.indexOf(todo);
+                        self.todos.splice(index, 1);
+					}
+                })
+			},
+
+			saveEditCache: function (todo) {
+                this.beforeEditCache = {
+                    title: todo.title,
+                    completed: todo.completed
+                };
 			},
 
 			editTodo: function (todo) {
-				this.beforeEditCache = todo.title;
+				this.saveEditCache(todo);
 				this.editedTodo = todo;
+			},
+
+			toggleCompleted: function (todo) {
+                this.saveEditCache(todo);
+				todo.completed = !todo.completed;
+				this.updateTodo(todo);
 			},
 
 			doneEdit: function (todo) {
@@ -102,16 +176,27 @@
 				todo.title = todo.title.trim();
 				if (!todo.title) {
 					this.removeTodo(todo);
+				} else {
+					this.updateTodo(todo);
 				}
 			},
 
 			cancelEdit: function (todo) {
 				this.editedTodo = null;
-				todo.title = this.beforeEditCache;
+				todo.title = this.beforeEditCache.title;
+				todo.completed = this.beforeEditCache.completed;
 			},
 
 			removeCompleted: function () {
-				this.todos = filters.active(this.todos);
+                var self = this;
+                fetch('http://localhost:9999/todo/clear_marked', {
+                    mode: 'cors',
+                    method: 'POST'
+                }).then(function(response) {
+                	if (response.ok){
+                        self.todos = filters.active(self.todos);
+					}
+                })
 			}
 		},
 

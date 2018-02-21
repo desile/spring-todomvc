@@ -13,8 +13,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -23,6 +23,10 @@
     <properties>
         <jetty.version>9.2.11.v20150529</jetty.version>
         <spring.version>4.2.5.RELEASE</spring.version>
+        <jstl.version>1.2</jstl.version>
+        <jackson.version>2.5.1</jackson.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
+        <h2.version>1.4.196</h2.version>
     </properties>
 
     <dependencies>
@@ -69,22 +73,22 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.5.1</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.11.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.196</version>
+            <version>${h2.version}</version>
         </dependency>
     </dependencies>
 

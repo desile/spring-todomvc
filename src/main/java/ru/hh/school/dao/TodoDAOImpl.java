@@ -3,15 +3,12 @@ package ru.hh.school.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import ru.hh.school.model.Todo;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @Transactional
@@ -48,10 +45,23 @@ public class TodoDAOImpl {
         session().delete(todo);
     }
 
+    public void delete(List<Todo> todos){
+        session().createQuery("delete from Todo where id in (:ids)")
+                .setParameterList("ids", todos.stream().map(Todo::getId).toArray()).executeUpdate();
+    }
+
+    public void deleteCompleted() {
+        session().createQuery("delete from Todo where completed = true").executeUpdate();
+
+    }
+
+    public void markAll(boolean mark) {
+        session().createQuery("update Todo set completed = :mark").setParameter("mark", mark).executeUpdate();
+    }
+
     private Session session(){
         return this.sessionFactory.getCurrentSession();
     }
-
 
 
 }

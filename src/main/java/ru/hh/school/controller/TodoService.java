@@ -49,14 +49,29 @@ public class TodoService {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/todo", method = RequestMethod.DELETE)
     public @ResponseBody ResponseEntity<Todo> delete(@RequestBody Todo newTodo,
                                                      HttpServletRequest request, HttpServletResponse response) {
         if(newTodo.getId() == null){
             return ResponseEntity.unprocessableEntity().body(null);
         } else {
-            todoDAO.update(newTodo);
+            todoDAO.delete(newTodo);
             return ResponseEntity.ok(newTodo);
         }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/todo/clear_marked", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<Void> clearMarked(HttpServletRequest request, HttpServletResponse response) {
+        todoDAO.deleteCompleted();
+        return ResponseEntity.ok(null);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/todo/mark_all", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<Void> completeAll(@RequestBody Boolean mark, HttpServletRequest request, HttpServletResponse response) {
+        todoDAO.markAll(mark);
+        return ResponseEntity.ok(null);
     }
 }
