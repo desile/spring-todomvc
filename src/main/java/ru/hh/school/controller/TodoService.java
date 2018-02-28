@@ -5,9 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hh.school.dao.TodoDAOImpl;
 import ru.hh.school.model.Todo;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -19,16 +16,14 @@ public class TodoService {
 
     @CrossOrigin
     @RequestMapping(value = "/todo", method = RequestMethod.GET)
-    public  @ResponseBody ResponseEntity<List<Todo>> getAll(@RequestParam(value = "completed", required = false) Boolean  completed,
-                                            HttpServletRequest request, HttpServletResponse response) {
+    public  @ResponseBody ResponseEntity<List<Todo>> getAll(@RequestParam(value = "completed", required = false) Boolean  completed) {
         return ResponseEntity.ok(todoDAO.listTodos(completed));
     }
 
     @CrossOrigin
     @RequestMapping(value = "/todo", method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseEntity<Todo> add(@RequestBody Todo newTodo,
-                            HttpServletRequest request, HttpServletResponse response) {
+    ResponseEntity<Todo> add(@RequestBody Todo newTodo) {
         if(newTodo.getId() != null){
             return ResponseEntity.unprocessableEntity().body(null);
         } else {
@@ -39,8 +34,7 @@ public class TodoService {
 
     @CrossOrigin
     @RequestMapping(value = "/todo", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Todo> update(@RequestBody Todo newTodo,
-                                     HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody ResponseEntity<Todo> update(@RequestBody Todo newTodo) {
         if(newTodo.getId() == null){
             return ResponseEntity.unprocessableEntity().body(null);
         } else {
@@ -51,8 +45,7 @@ public class TodoService {
 
     @CrossOrigin
     @RequestMapping(value = "/todo", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity<Todo> delete(@RequestBody Todo newTodo,
-                                                     HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody ResponseEntity<Todo> delete(@RequestBody Todo newTodo) {
         if(newTodo.getId() == null){
             return ResponseEntity.unprocessableEntity().body(null);
         } else {
@@ -63,15 +56,15 @@ public class TodoService {
 
     @CrossOrigin
     @RequestMapping(value = "/todo/clear_marked", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Void> clearMarked(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Void> clearMarked() {
         todoDAO.deleteCompleted();
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
     }
 
     @CrossOrigin
     @RequestMapping(value = "/todo/mark_all", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Void> completeAll(@RequestBody Boolean mark, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Void> completeAll(@RequestBody Boolean mark) {
         todoDAO.markAll(mark);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
     }
 }
