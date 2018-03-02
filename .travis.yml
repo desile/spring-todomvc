@@ -4,8 +4,7 @@ addons:
             - sshpass
 language: java
 sudo: false
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn clean install
+install: mvn clean install
 after_success:
     - export SSHPASS=$DEPLOY_PASS
     - sshpass -e ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST rm app/*
