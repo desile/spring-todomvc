@@ -11,5 +11,7 @@ after_success:
     - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST rm app/*
     - sshpass -e scp $TRAVIS_BUILD_DIR/target/spring-todomvc*shaded.jar $DEPLOY_USER@$DEPLOY_HOST:~/app
     - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST java -jar ~/app/spring-todomvc*shaded.jar
-    - sshpass -p $DEPLOY_PASS ssh $DEPLOY_USER@$DEPLOY_HOST touch file.txt
+    - sshpass -p $DEPLOY_PASS ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST touch file.txt
+    - sshpass -p $DEPLOY_PASS ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST ls
+
 
