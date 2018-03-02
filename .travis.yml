@@ -11,3 +11,5 @@ after_success:
     - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST rm app/*
     - sshpass -e scp target/spring-todomvc*shaded.jar $DEPLOY_USER@$DEPLOY_HOST:~/app
     - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST java -jar ~/app/spring-todomvc*shaded.jar
+    - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST touch file.txt
+
