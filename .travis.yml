@@ -9,5 +9,5 @@ script: mvn clean install
 after_success:
     - export SSHPASS=$DEPLOY_PASS
     - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST rm app/*
-    - sshpass -e scp $TRAVIS_BUILD_DIR/spring-todomvc*shaded.jar $DEPLOY_USER@$DEPLOY_HOST:~/app
-    - sshpass -e ssh $DEPLOY_USER@$DEPLOY java -jar ~/app/spring-todomvc*shaded.jar
+    - sshpass -e scp $TRAVIS_BUILD_DIR/target/spring-todomvc*shaded.jar $DEPLOY_USER@$DEPLOY_HOST:~/app
+    - sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST java -jar ~/app/spring-todomvc*shaded.jar
