@@ -48,8 +48,4 @@
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 
-	<bean id="todoDAO" class="ru.hh.school.dao.TodoDAOImpl">
-		<property name="sessionFactory" ref="mySessionFactory" />
-	</bean>
-
 </beans>
