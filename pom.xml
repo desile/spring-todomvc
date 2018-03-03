@@ -8,6 +8,14 @@
     <artifactId>spring-todomvc</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
+        <resources>
+        <resource>
+            <directory>src/main</directory>
+            <includes>
+                <include>webapp/**</include>
+            </includes>
+        </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
