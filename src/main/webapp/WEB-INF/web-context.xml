@@ -10,7 +10,7 @@
 	<!-- Scans the classpath of the application for @Components to deploy as beans -->
 	<context:component-scan base-package="ru.hh.school" />
 
-	<mvc:resources mapping="/index.html" location="/frontend/"/>
+	<mvc:resources mapping="/**" location="/frontend/"/>
 
 	<!-- Configures the @Controller programming model -->
 	<mvc:annotation-driven/>
