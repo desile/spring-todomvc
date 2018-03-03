@@ -7,7 +7,7 @@ import ru.hh.school.dao.TodoDAOImpl;
 import ru.hh.school.model.Todo;
 import java.util.List;
 
-
+@RequestMapping(value = "/api")
 @RestController
 public class TodoService {
 

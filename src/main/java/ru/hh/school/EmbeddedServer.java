@@ -14,16 +14,13 @@ public class EmbeddedServer {
         Server server = new Server(9999);
 
         HandlerCollection handlers = new HandlerCollection();
-        ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase(EmbeddedServer.class.getResource("/webapp/frontend").toExternalForm());
 
         WebAppContext context = new WebAppContext();
         context.setResourceBase(EmbeddedServer.class.getResource("/webapp").toExternalForm());
         context.setDescriptor(Paths.get("target", "web.xml").toString());
-        context.setContextPath("/frontend");
+        context.setContextPath("/");
 
         handlers.addHandler(context);
-        handlers.addHandler(resourceHandler);
 
         server.setHandler(handlers);
 

@@ -53,7 +53,7 @@
 				},
 				set: function (value) {
                     var self = this;
-                    fetch('http://localhost:9999/todo/mark_all', {
+                    fetch('http://localhost:9999/api/todo/mark_all', {
                         mode: 'cors',
                         method: 'POST',
                         headers: {
@@ -78,7 +78,7 @@
 
 			loadTodos: function () {
                 var self = this;
-                fetch('http://localhost:9999/todo', {
+                fetch('http://localhost:9999/api/todo', {
                     mode: 'cors',
                     method: 'GET'
                 }).then(function(response) {
@@ -90,7 +90,7 @@
 
 			updateTodo: function (todo) {
                 var self = this;
-                fetch('http://localhost:9999/todo', {
+                fetch('http://localhost:9999/api/todo', {
                     mode: 'cors',
                     method: 'POST',
                     headers: {
@@ -116,7 +116,7 @@
 					return;
 				}
 				var todoToAdd = { title: value, completed: false };
-                fetch('http://localhost:9999/todo', {
+                fetch('http://localhost:9999/api/todo', {
                     mode: 'cors',
                     method: 'PUT',
 					headers: {
@@ -135,7 +135,7 @@
 
 			removeTodo: function (todo) {
 				var self = this;
-                fetch('http://localhost:9999/todo', {
+                fetch('http://localhost:9999/api/todo', {
                     mode: 'cors',
                     method: 'DELETE',
                     headers: {
@@ -189,7 +189,7 @@
 
 			removeCompleted: function () {
                 var self = this;
-                fetch('http://localhost:9999/todo/clear_marked', {
+                fetch('http://localhost:9999/api/todo/clear_marked', {
                     mode: 'cors',
                     method: 'POST'
                 }).then(function(response) {
