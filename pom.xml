@@ -61,7 +61,7 @@
         <jstl.version>1.2</jstl.version>
         <jackson.version>2.5.1</jackson.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
-        <h2.version>1.4.196</h2.version>
+        <h2.version>2.1.210</h2.version>
     </properties>
 
     <dependencies>
