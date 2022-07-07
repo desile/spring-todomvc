@@ -56,7 +56,7 @@
     </build>
 
     <properties>
-        <jetty.version>9.2.11.v20150529</jetty.version>
+        <jetty.version>10.0.10</jetty.version>
         <spring.version>4.2.5.RELEASE</spring.version>
         <jstl.version>1.2</jstl.version>
         <jackson.version>2.5.1</jackson.version>
