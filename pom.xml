@@ -59,7 +59,7 @@
         <jetty.version>9.2.11.v20150529</jetty.version>
         <spring.version>4.2.5.RELEASE</spring.version>
         <jstl.version>1.2</jstl.version>
-        <jackson.version>2.5.1</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <h2.version>1.4.196</h2.version>
     </properties>
